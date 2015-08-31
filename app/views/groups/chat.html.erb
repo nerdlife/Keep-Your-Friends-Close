@@ -1,0 +1,49 @@
+<div class="band navigation">
+  <div class="row">
+    <div class="three columns button button-primary button-selected">
+      <p><a href="/groups/<%= @group.id %>/chat">Chat</a></p>
+    </div>
+    <div class="three columns button button-primary">
+      <p><a href="/groups/<%= @group.id %>/map">Map</a></p>
+    </div>
+    <div class="three columns button button-primary">
+      <p><a href="/groups/<%= @group.id %>/photos">Photos</a></p>
+    </div>
+    <div class="three columns button button-primary">
+      <p><a href="/groups/<%= @group.id %>">Info</a></p>
+    </div>
+  </div>
+</div>
+
+<div class="band">
+  <div class="row">
+    <div class="eight columns">
+      <form class="ryan-soren-form" id="chat-input">
+        <input type="text" name="message">
+        <input class="doge" type="submit" name="send-message" value="Send">
+      </form>
+    </div>
+    <div class="two columns">
+      <br>
+    </div>
+    <div class="two columns">
+      <div id="help-button">
+        <img src="/icons/panicbutton.png">
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="twelve columns">
+      <div id="chat-box">
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  <%= render "text.js" %>
+</script>
+
+<script>
+  <%= render "chat.js" %>
+</script>

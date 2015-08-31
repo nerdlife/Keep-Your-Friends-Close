@@ -1,0 +1,37 @@
+<div class="band navigation">
+  <div class="row">
+    <div class="three columns button button-primary">
+      <%= link_to "My Groups", groups_path %>
+    </div>
+    <div class="three columns button button-primary button-selected">
+      <%= link_to "Invites", invitations_path %>
+    </div>
+    <div class="three columns button button-primary">
+      <%= link_to "New Group", new_group_path %>
+    </div>
+    <div class="three columns button button-primary">
+      <%= link_to "Settings", "/users/#{current_user.id}/settings" %>
+    </div>
+  </div>
+</div>
+
+<div class="band groups">
+  <% @invitations.each do |invitation| %>
+    <div class="row content-item">
+      <div class="four columns">
+        <h1 class="group-name"><%= invitation.group.name %></h1>
+      </div>
+      <div class="four columns">
+        Invited by: <%= invitation.group.admin.name %>
+        <br>
+        <img src="<%= invitation.group.admin.facebook.get_picture(invitation.group.admin.uid) %>">
+      </div>
+      <div class="two columns">
+        <%= button_to "Accept", group_invitation_path(invitation.group, invitation) + '/accept', method: :delete, class: 'doge accept-button accept-button' %>
+      </div>
+      <div class="two columns">
+        <%= button_to "Decline", group_invitation_path(invitation.group, invitation) + '/decline', method: :delete, class: 'doge  accept-button' %>
+      </div>
+    </div>
+  <% end %>
+</div>

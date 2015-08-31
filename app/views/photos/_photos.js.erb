@@ -1,0 +1,25 @@
+
+var photos = []
+
+$("#take-photo").on("click", function(){
+
+  cloudinary.openUploadWidget({ cloud_name: 'keepyourfriendsclose', upload_preset: 'wqsntyaq', max_files: 1},
+
+    function(error, result) {
+      photos.push(result);
+
+      var url = photos[(photos.length-1)][0].secure_url
+
+      var group_id = $("#photo-stream").attr("data-group-id")
+      var user_id = $("#photo-stream").attr("data-user-id")
+      $.ajax({
+        url: "/groups/"+group_id+"/photos",
+        type: "post",
+        dataType: "json",
+        data: {url: url, user_id: user_id}
+      }).done(function(response){
+        console.log("success");
+        location.reload();
+      })
+    });
+})

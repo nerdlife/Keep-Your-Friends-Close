@@ -1,0 +1,260 @@
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS and SCSS file within this directory, lib/assets/stylesheets, vendor/assets/stylesheets,
+ * or any plugin's vendor/assets/stylesheets directory can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the bottom of the
+ * compiled file so the styles you add here take precedence over styles defined in any styles
+ * defined in the other CSS/SCSS files in this directory. It is generally better to create a new
+ * file per style scope.
+ *
+ *= require ../../../vendor/assets/stylesheets/skeleton.css
+ *= require ../../../vendor/assets/stylesheets/normalize.css
+ *= require_tree .
+ *= require_self
+ */
+
+@font-face {
+  font-family: CordeliaFont;
+  src: url('HunDIN1451.ttf');
+}
+
+html {
+  font-family: helvetica; /* 1 */
+  -ms-text-size-adjust: 100%; /* 2 */
+  -webkit-text-size-adjust: 100%; /* 2 */
+}
+
+/**
+ * Remove default margin.
+ */
+/** {
+  outline: 1px solid black;
+}*/
+
+
+body {
+  margin: 0 5vw 0 5vw;
+  background-color: #56A0D3;
+}
+
+/*HEADER*/
+.band.header{
+  text-align: center;
+  top: 0;
+  width: 100%;
+  padding-top: 1px;
+  /*border-bottom: 10px solid #ffc63e;*/
+}
+/*NAVIGATION*/
+.band.navigation{
+  width: 100%;
+}
+/*CONTENT*/
+.band.groups{
+  /*background-color: white;*/
+}
+/*FOOTER*/
+.band.footer{
+  background-color: yellow;
+  position:fixed;
+  width: 100%;
+  height: 10em;
+  bottom:0;
+  width: 100%;
+  padding-bottom: 5px;
+}
+
+.logo {
+  font-family: CordeliaFont;
+  font-size: 4.2em;
+  /*font-style: */
+  font-weight: bold;
+}
+
+.four.columns{
+  text-align: center;
+}
+
+.button {
+  font-size: 2em;
+  padding: 0;
+}
+
+.button.button-primary.login-button {
+  background-color: #c0c0c0;
+}
+
+.button.button-primary a {
+  color: black;
+  text-decoration: none;
+}
+
+.button.button-primary.button-selected {
+  background-color: white;
+}
+
+.band.navigation {
+  margin-top: 30pt;
+  margin-bottom: 20pt;
+}
+
+.content-item {
+  background-color: white;
+  max-width: 100%;
+  padding: 10pt;
+  text-align: center;
+  border-radius: 5pt;
+  margin: 5pt;
+}
+
+.content-item a {
+  font-weight: bold;
+  font-size: 2em;
+  color: black;
+  text-decoration: none;
+}
+
+.invitation {
+  background-color: white;
+  padding: 10pt;
+}
+
+.invitation .two.columns {
+  text-align: center;
+}
+
+.invitation .group-name {
+  color: black;
+  text-decoration: none;
+  margin: 0;
+}
+
+.ryan-soren-form {
+  background-color: white;
+  padding: 10pt;
+  text-align: center;
+}
+
+.ryan-soren-form {
+  font-size: 2em;
+  border-radius: 5pt;
+}
+
+.ryan-soren-form input[type=text] {
+  border: 1px solid #56A0D3;
+}
+
+.ryan-soren-form input[name=commit] {
+  font-size: 1em;
+  background-color: #EEE;
+}
+
+.band.header {
+  margin-top: 20pt;
+}
+
+.doge {
+  -moz-box-shadow:inset 0px 1px 0px 0px #ffffff;
+  -webkit-box-shadow:inset 0px 1px 0px 0px #ffffff;
+  box-shadow:inset 0px 1px 0px 0px #ffffff;
+  background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #ededed), color-stop(1, #dfdfdf));
+  background:-moz-linear-gradient(top, #ededed 5%, #dfdfdf 100%);
+  background:-webkit-linear-gradient(top, #ededed 5%, #dfdfdf 100%);
+  background:-o-linear-gradient(top, #ededed 5%, #dfdfdf 100%);
+  background:-ms-linear-gradient(top, #ededed 5%, #dfdfdf 100%);
+  background:linear-gradient(to bottom, #ededed 5%, #dfdfdf 100%);
+  filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#ededed', endColorstr='#dfdfdf',GradientType=0);
+  background-color:#ededed;
+  -moz-border-radius:8px;
+  -webkit-border-radius:8px;
+  border-radius:8px;
+  border:1px solid #dcdcdc;
+  display:inline-block;
+  cursor:pointer;
+  color:#777777;
+  font-family:helvetica;
+  font-size:18px;
+  font-weight:bold;
+  padding:8px 19px;
+  text-decoration:none;
+  text-shadow:0px 1px 0px #ffffff;
+}
+.doge:hover {
+  background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #dfdfdf), color-stop(1, #ededed));
+  background:-moz-linear-gradient(top, #dfdfdf 5%, #ededed 100%);
+  background:-webkit-linear-gradient(top, #dfdfdf 5%, #ededed 100%);
+  background:-o-linear-gradient(top, #dfdfdf 5%, #ededed 100%);
+  background:-ms-linear-gradient(top, #dfdfdf 5%, #ededed 100%);
+  background:linear-gradient(to bottom, #dfdfdf 5%, #ededed 100%);
+  filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#dfdfdf', endColorstr='#ededed',GradientType=0);
+  background-color:#dfdfdf;
+}
+.doge:active {
+  position:relative;
+  top:1px;
+}
+.doge.inline {
+}
+
+.home-button {
+  margin-top: 2pt;
+  padding: 2pt 4pt;
+}
+
+.home-button img {
+  width: 50pt;
+}
+
+.logout-button {
+  margin-left: -30pt;
+}
+
+.logout-button img {
+  margin-top: 4pt;
+  margin-bottom: -2pt;
+}
+
+.content-item .accept-button {
+  margin-top: 15pt;
+}
+
+#help-button img {
+  width: 5em;
+}
+
+#chat-box {
+  background-color: white;
+  margin-top: 20pt;
+  border-radius: 5pt;
+  padding: 10pt;
+}
+
+#photo-stream {
+  margin-top: 20pt;
+  border-radius: 5pt;
+  padding: 5pt;
+  background-color: white;
+}
+
+.photo img {
+  width: 100%;
+}
+
+.user-image {
+  display: inline-block;
+}
+
+.name-tag {
+  display: inline-block;
+  margin-top: -40pt;
+  font-size: 2em;
+}
+
+#map-canvas {
+  height: 83vh;
+}
+
+

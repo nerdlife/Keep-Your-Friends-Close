@@ -1,0 +1,28 @@
+<div class="band navigation">
+  <div class="row">
+    <div class="three columns button button-primary button-selected">
+      <%= link_to "My Groups", groups_path %>
+    </div>
+    <div class="three columns button button-primary">
+      <%= link_to "Invites", invitations_path %>
+    </div>
+    <div class="three columns button button-primary">
+      <%= link_to "New Group", new_group_path %>
+    </div>
+    <div class="three columns button button-primary">
+      <%= link_to "Settings", "/users/#{current_user.id}/settings" %>
+    </div>
+  </div>
+</div>
+
+<div class="band groups">
+  <% (@groups ||= []).each do |group| %>
+    <div class="row">
+      <div class="twelve columns">
+        <div class="content-item">
+          <a href="/groups/<%= group.id %>/map"><%= group.name %> - <%= group.users.count %> <%= group.users.count > 1 ? 'Users' : 'User' %></a>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>

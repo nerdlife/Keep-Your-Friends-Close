@@ -1,0 +1,39 @@
+<div class="band navigation">
+  <div class="row">
+    <div class="three columns button button-primary">
+      <p><a href="/groups/<%= @group.id %>/chat">Chat</a></p>
+    </div>
+    <div class="three columns button button-primary">
+      <p><a href="/groups/<%= @group.id %>/map">Map</a></p>
+    </div>
+    <div class="three columns button button-primary button-selected">
+      <p><a href="/groups/<%= @group.id %>/photos">Photos</a></p>
+    </div>
+    <div class="three columns button button-primary">
+      <p><a href="/groups/<%= @group.id %>">Info</a></p>
+    </div>
+  </div>
+</div>
+
+<div id="take-photo" class="doge">
+  Take a photo
+</div>
+
+<div id="photo-stream" data-group-id= "<%=@group.id%>", data-user-id= "<%=current_user.id%>">
+
+  <% @photos.each do |photo|%>
+    <div class="photo">
+      <img src="<%= photo.url%>">
+
+      <% if photo.user_id == current_user.id || @group.admin.id == current_user.id %>
+      <%= button_to "Delete", group_photo_path(@group, photo), method: :delete, class: 'doge' %>
+      <%end%>
+    </div>
+
+  <%end%>
+</div>
+
+
+<script>
+  <%= render "photos.js" %>
+</script>

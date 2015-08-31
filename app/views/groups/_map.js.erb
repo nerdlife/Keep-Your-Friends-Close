@@ -1,0 +1,159 @@
+var landmarker = null;
+
+function findme(){
+  navigator.geolocation.getCurrentPosition(initialize)
+}
+
+function initialize(location) {
+
+  var currentlocation = new google.maps.LatLng(location.coords.latitude, location.coords.longitude)
+  updateCurrentUser();
+  updateGroupMarkers();
+  updateLandmark();
+
+  // ajax call to update the current users location
+  function updateCurrentUser(){
+    var latitude = location.coords.latitude
+    var longitude = location.coords.longitude
+    var group_id = $("#map-canvas").attr("data-group-id")
+    user_id = $("#map-canvas").attr("data-user-id")
+    var location_hash = {latitude: latitude, longitude: longitude}
+    console.log(location_hash);
+    console.log("/groups/"+group_id+"/users/"+user_id)
+
+    $.ajax({
+      url:"/groups/"+group_id+"/users/"+user_id,
+      type: "get",
+      dataType: "json",
+      data: location_hash
+    }).done(function(){
+      console.log("in the done");
+    })
+  }
+
+  var mapOptions = {
+    center: currentlocation, // or the average of the users locations
+    zoom: 17,
+  };
+
+  var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+
+  function pickUserIcon(){
+    var firstLetter = "<%= current_user.name[0].upcase %>"
+    var colors = ["blue", "brown", "darkgreen", "green", "orange", "paleblue", "pink", "purple", "red", "yellow"]
+    var randomColor = colors[Math.floor(Math.random()*colors.length)];
+    var image = "/"+randomColor+"_Marker"+firstLetter+".png"
+    return image;
+  }
+
+  var marker = new google.maps.Marker({
+    position: currentlocation,
+    map: map,
+    icon: pickUserIcon()
+  });
+
+
+  // create markers for each user on the same map
+  function updateGroupMarkers(){
+    var group_id = $("#map-canvas").attr("data-group-id")
+    $.ajax({
+      url: "/groups/"+group_id+"/users",
+      dataType: "json",
+      type: "get"
+    }).done(function(response){
+      // console.log("ajax complete");
+      for (var i = 0; i < response.length; i++){
+        var marker = new google.maps.Marker({
+          position: new google.maps.LatLng(response[i].latitude, response[i].longitude),
+          map: map,
+          icon: "/"+response[i].color+"_Marker"+response[i].name[0]+".png",
+          title: response[i].name
+        });
+      }
+    })
+  }
+
+  function getupdatedlocation(){
+    // console.log("updating location")
+    navigator.geolocation.getCurrentPosition(function(location){
+      var newlocation = new google.maps.LatLng(location.coords.latitude, location.coords.longitude)
+
+      // var newlocation = new google.maps.LatLng(37.7952, 122.4028)
+      if ( newlocation.k != currentlocation.k || newlocation.D != currentlocation.D) {
+        marker.setPosition(newlocation);
+        updateCurrentUser();
+        currentlocation = newlocation;
+      }
+    })
+  }
+
+  function updateLandmark() {
+    $.ajax({
+      url: '/groups/<%= @group.id %>/landmark',
+      type: 'get',
+      dataType: "json"
+    }).done(function(response) {
+;        var location = new google.maps.LatLng(response.lat, response.lng);
+      // landmarker = new google.maps.Marker({
+      //   position: location,
+      //   map: map,
+      //   title: 'Hello World!',
+      //   draggable: true
+      // })
+      if(!landmarker) {
+        landmarker = new google.maps.Marker({
+          position: location,
+          map: map,
+          draggable: true,
+          icon: "/treasure-mark.png"
+        })
+      } else {
+        landmarker.setPosition(location);
+      }
+      google.maps.event.addListener(landmarker, 'dragend', function(e) {
+        setLandmark(e);
+      })
+    })
+  }
+
+  setInterval(getupdatedlocation, 3000);
+  setInterval(updateGroupMarkers, 3000);
+  setInterval(updateLandmark, 3000);
+
+  <% if @group.admin.id == current_user.id %>
+    google.maps.event.addListener(map, 'click', function(e) {
+      if(!landmarker) {
+        landmarker = new google.maps.Marker({
+          position: e.latLng,
+          map: map,
+          title: 'Hello World!',
+          draggable: true,
+          icon: "/treasure-mark.png"
+        })
+        setLandmark(e);
+        google.maps.event.addListener(landmarker, 'dragend', function(e) {
+          setLandmark(e);
+        })
+      }
+    })
+
+    function setLandmark(e) {
+      $.ajax({
+        url: "/groups/<%= @group.id %>/landmark",
+        type: "post",
+        data: {
+          latitude: e.latLng.k,
+          longitude: e.latLng.D
+        }
+      })
+    }
+  <% end %>
+}
+
+
+google.maps.event.addDomListener(window, 'load', findme);
+
+
+
+
+

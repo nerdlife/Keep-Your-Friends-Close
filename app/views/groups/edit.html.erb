@@ -1,0 +1,81 @@
+<h1>Group Name: <%= @group.name %></h1>
+
+<% if current_user.id == @group.admin.id %>
+  <div class="ryan-soren-form" id="add-user-form">
+    <div id="error-box" style="display: none;">
+      <p>Error Message</p>
+    </div>
+
+    <h3>Add Users</h3>
+    <form id="add-user">
+      <input type="text" name="name" id="search">
+      <input type="hidden" name="uid" value="">
+      <input type="submit" value="Add User">
+    </form>
+
+    <div><input type="button" value="Add/Update Description" onclick="displayForm(updateForm)" /></div>
+
+    <div id="updateForm" style="display: none">
+      <%= form_for @group, url: group_path do |f| %>
+        <%= f.label :description %>
+        <%= f.text_field :description %>
+        <%= f.submit "Update" %>
+      <% end %>
+    </div>
+
+    <% if @group.description != nil %>
+      Group Description: <%= @group.description %>
+    <% end %>
+
+  </div>
+
+  <script>
+    <%= render partial: "edit.js" %>
+  </script>
+
+<% end %>
+
+<br>
+<%= link_to 'Delete Group', group_path, method: :delete, data: { confirm: 'Are you sure?' }, class: 'doge' %></br>
+
+<h1>Group Admin </h1>
+
+<div class="band">
+  <div class="row">
+      <div class="six columns content-item">
+        <% admin = @group.admin%>
+        <div class="user-image">
+          <img src="<%= admin.facebook.get_picture(admin.uid) %>">
+        </div>
+        <div class="name-tag"><%= admin.name %></div>
+      </div>
+  </div>
+</div>
+
+<h1>Members</h1>
+
+<div class="band">
+  <div class="row">
+    <% @group.users.each do |user| %>
+      <div class="six columns content-item">
+        <div class="user-image">
+          <img src="<%= user.facebook.get_picture(user.uid) %>">
+        </div>
+        <div class="name-tag"><%= user.name %></div>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+<h1>Users invited</h1>
+
+<div class="band">
+  <div class="row" id="user-list">
+    <% @group.invitations.each do |invitation| %>
+      <div class="six columns content-item">
+        <img src="<%= invitation.user.facebook.get_picture(invitation.user.uid) %>">
+        <div class="name-tag"><%= invitation.user.name %></div>
+      </div>
+    <% end %>
+  </div>
+</div>

@@ -1,0 +1,62 @@
+function displayForm(formId) {
+  if (false == $(formId).is(':visible')) {
+    $(formId).show(250);
+  }
+  else {
+    $(formId).hide(250);
+  }
+}
+
+$(function() {
+
+
+  var coolbeans = <%= current_user.facebook.get_connections("me", "friends?fields=id,name,picture.type(small)").collect {|item| { id: item["id"], value: item["name"], image: item["picture"]["data"]["url"]} }.to_json.html_safe %>
+
+  $( "#search" ).autocomplete({
+    minLength: 0,
+    source: coolbeans,
+    focus: function( event, ui ) {
+      $( "#search" ).val( ui.item.label );
+      return false;
+    },
+    select: function( event, ui ) {
+      $( "#search" ).val( ui.item.label );
+      $( "input[name=uid]" ).val( ui.item.id );
+      url: "/groups/<%= @group.id %>/invitations"
+      return false;
+    }
+  })
+  .autocomplete( "instance" )._renderItem = function( ul, item ) {
+    return $( "<li>" )
+    .append("<a><img src='" + item.image + "' />" + item.label + "</a>")
+    .appendTo( ul );
+  };
+});
+
+    // $("#add-user").on("submit", function(e) {
+    //   e.preventDefault();
+
+    //   $.ajax({
+    //     type: "post",
+    //     url: "/groups/<%= @group.id %>/invitations",
+    //     data: $(this).serialize()
+    //   })
+    // })
+
+$("#add-user").on("submit", function(event) {
+  event.preventDefault();
+  console.log($(this).serialize())
+  console.log("<%=@group.id%>")
+  $.ajax({
+    type: "post",
+    url: "/groups/<%= @group.id %>/invitations",
+    data: $(this).serialize()
+  }).done(function(response){
+    console.log(response);
+    location.reload();
+    // $("#user-list").prepend('<div class="col span_12">'+response.name+'</li></div>')
+  }).fail(function(response) {
+    $("#error-box").show();
+    $("#error-box").text(response.responseText)
+  })
+})

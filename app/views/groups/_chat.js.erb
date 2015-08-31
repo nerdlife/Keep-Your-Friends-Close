@@ -1,0 +1,50 @@
+var connection;
+
+function setup() {
+  connection = new WebSocket("ws://192.168.1.20:8080");
+
+  connection.onopen = function() {
+    var data = {
+      type: "connect",
+      group_id: <%= @group.id %>
+    };
+    connection.send(JSON.stringify(data));
+  }
+
+  connection.onmessage = function(event) {
+    addMessage(event.data);
+  }
+
+  connection.onclose = function() {
+    setTimeout(function() {
+      setup();
+    }, 1000);
+  }
+}
+
+function addMessage(msg) {
+  var p = "<p>"
+  chatBox.prepend(p + msg);
+}
+
+$(document).ready(function() {
+  setup();
+  chatBox = $("#chat-box");
+
+  $("#chat-input").on("submit", function(e) {
+    e.preventDefault();
+
+    message = {
+      type: "message",
+      message: "<%= current_user.name %>: " + $("input[name=message]").val() + " - <%= Time.now.ctime %>"
+    }
+
+    message = JSON.stringify(message);
+
+    if($("input[name=message]").val()) {
+      connection.send(message);
+    }
+
+    $("input[name=message]").val("");
+  });
+})

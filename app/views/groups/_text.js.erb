@@ -1,0 +1,12 @@
+$("#help-button").on("click", function(event){
+  event.preventDefault();
+  if(confirm("Do you want to send a panic message to your group?")) {
+    $.ajax({
+      url: "/groups/<%= @group.id %>/text",
+      type: "post"
+    }).done(function(response){
+      console.log("success");
+      $("#help-button").replaceWith("Message Sent! Your friends are on the way");
+    })
+  }
+})

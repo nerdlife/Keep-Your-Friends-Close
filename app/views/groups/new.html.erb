@@ -1,0 +1,31 @@
+<div class="band navigation">
+  <div class="row">
+    <div class="three columns button button-primary">
+      <%= link_to "My Groups", groups_path %>
+    </div>
+    <div class="three columns button button-primary">
+      <%= link_to "Invites", invitations_path %>
+    </div>
+    <div class="three columns button button-primary button-selected">
+      <%= link_to "New Group", new_group_path %>
+    </div>
+    <div class="three columns button button-primary">
+      <%= link_to "Settings", "/users/#{current_user.id}/settings" %>
+    </div>
+  </div>
+</div>
+
+<div class="ryan-soren-form">
+  <p>
+    <% if flash[:group_creation_errors] %>
+      <%= flash[:group_creation_errors] %>
+    <% end %>
+  </p>
+
+  <%= form_for Group.new do |f| %>
+    <p>
+      Name: &nbsp &nbsp<%= f.text_field :name %>
+    </p>
+    <input class="doge" type="submit" name="commit" value="Create Group">
+  <% end %>
+</div>

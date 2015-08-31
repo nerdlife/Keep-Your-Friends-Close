@@ -1,0 +1,71 @@
+<div class="band navigation">
+  <div class="row">
+    <div class="three columns button button-primary">
+      <%= link_to "My Groups", groups_path %>
+    </div>
+    <div class="three columns button button-primary">
+      <%= link_to "Invites", invitations_path %>
+    </div>
+    <div class="three columns button button-primary">
+      <%= link_to "New Group", new_group_path %>
+    </div>
+    <div class="three columns button button-primary button-selected">
+      <%= link_to "Settings", "/users/#{current_user.id}/settings" %>
+    </div>
+  </div>
+</div>
+
+<div class="band">
+  <div class="row">
+    <div class="twelve columns">
+      <form class="ryan-soren-form" action="/users/<%= @user.id %>/savephone" method="post" id="update-phone-form">
+        <% if @user.phone_number != '' %>
+          <span>Phone Number: <%= @user.phone_number%> </span>
+        <% end %>
+
+        <label>Update Phone Number:</label>
+        <input type="text" name="phone">
+        <input type="submit" value="Save">
+      </form>
+      <div id="errors"></div>
+    </div>
+  </div>
+</div>
+
+<hr>
+
+<div class="band">
+  <div class="row">
+    <p> Groups You've Created: </p>
+    <% @groups = Group.where(user_id: @user.id) %>
+
+    <% @groups.each do |group| %>
+      <div class="six columns content-item">
+        <a href="/groups/<%=group.id%>/edit"><%= group.name %></a>
+      </div>
+    <%end%>
+  </div>
+</div>
+
+<div>
+  <%if flash[:phone_number_errors]%>
+    <% flash[:phone_number_errors].each do |msg| %>
+      <%= msg %>
+    <% end %>
+  <% end %>
+
+</div>
+
+<hr>
+
+<div class="row col span_12">
+  <form class="ryan-soren-form" action="/users/<%= @user.id %>/enabletexting" method="get" id="texting-form">
+    <% if @user.allow_texting == true %>
+    <label>Text Updates </label>
+    <input type="submit" value="Disable">
+    <% else %>
+    <label>Text Updates </label>
+    <input type="submit" value="Enable">
+    <% end %>
+  </form>
+</div>

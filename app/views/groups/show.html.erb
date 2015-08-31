@@ -1,0 +1,54 @@
+<div class="band navigation">
+  <div class="row">
+    <div class="three columns button button-primary">
+      <p><a href="/groups/<%= @group.id %>/chat">Chat</a></p>
+    </div>
+    <div class="three columns button button-primary">
+      <p><a href="/groups/<%= @group.id %>/map">Map</a></p>
+    </div>
+    <div class="three columns button button-primary">
+      <p><a href="/groups/<%= @group.id %>/photos">Photos</a></p>
+    </div>
+    <div class="three columns button button-primary button-selected">
+      <p><a href="/groups/<%= @group.id %>">Info</a></p>
+    </div>
+  </div>
+</div>
+
+<% if @group.description %>
+  <strong><h3>Description</h3></strong>
+  <h4><%= @group.description %></h4>
+  <hr>
+<% end %>
+
+<div class="band">
+  <div class="row">
+    <div class="ten columns">
+      <h1>Users</h1>
+    </div>
+
+    <% if current_user.id == @group.admin.id %>
+      <div class="two columns">
+        <button class="doge"><%= link_to "Edit", edit_group_path %></button>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+<div class="band">
+  <div class="row">
+    <% @users.each do |user| %>
+      <div class="six columns content-item">
+        <div class="user-image">
+          <img src="<%= user.facebook.get_picture(user.uid) %>">
+        </div>
+        <div class="name-tag"><%= user.name %></div>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+
+<% if current_user.id != @group.admin.id %>
+  <button><a href="/groups/<%= @group.id %>/users/<%= current_user.id %>/leave">Leave Group</a></button>
+<% end %>
